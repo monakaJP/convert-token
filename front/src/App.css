@@ -1,0 +1,45 @@
+body{
+  background: rgb(111,107,198);
+  background: linear-gradient(90deg, rgba(111,107,198,1) 48%, rgba(173,103,238,1) 100%);
+}
+
+.app{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toph{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.btm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.app form{
+  background-color: rgba(255, 255, 255, 0.839);
+  width:  40%;
+  max-width: 450px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #dfdfdf;
+  box-shadow: 18px 18px 32px -5px #382929;
+  border-radius: 10px;
+}
+
+.uiform{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  
+}
