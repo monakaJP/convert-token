@@ -2,7 +2,7 @@ const Web3 = require('web3');
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const { AggregateTransaction, Deadline, TransferTransaction, Address, Mosaic, UInt64, PlainMessage, NetworkType, PublicAccount, TransactionService, TransactionHttp, HashLockHttp, ReceiptHttp, HashLockTransaction, Listener, Account, NamespaceHttp, MosaicId, TransactionGroup, CosignatureTransaction, Order, TransactionType } = require('symbol-sdk');
 
-const web3 = createAlchemyWeb3(`wss://eth-sepolia.g.alchemy.com/v2/U4H2r9cd2JTquAXAeneEYFBhDzbehXKx`);
+const web3 = createAlchemyWeb3(`wss://eth-sepolia.g.alchemy.com/v2/***`);
 
 const CONTRACT_ADDRESS = "0x72f09C2b0e3afB935CdED47Dd27106B335026Cdc";
 

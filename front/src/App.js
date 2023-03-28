@@ -34,7 +34,6 @@ function App() {
   const [step, setStep] = useState(1);
   const [description, setDescription] = useState("Please input token and the address.");
   const [tabIndex, setTabIndex] = useState(0);
-  const [numConfirm, setNumConfirm] = useState(1);
   const [details, setDetails] = useState("");
 
   const handleTabChange = (event, newTabIndex) => {
@@ -70,11 +69,13 @@ function App() {
   }
 // invoke to check if account is already connected
 async function checkAccount() {
-  let web3 = new Web3(window.ethereum)
-  setWeb3(web3)
-  await web3.eth.requestAccounts();
-  const accounts = await web3.eth.getAccounts();
-  setAccount(accounts[0]);
+  if(account===null){
+    let web3 = new Web3(window.ethereum)
+    setWeb3(web3)
+    await web3.eth.requestAccounts();
+    const accounts = await web3.eth.getAccounts();
+    setAccount(accounts[0]);
+  }
 
 }
 
@@ -144,6 +145,7 @@ async function convert(){
   });
     });
   }catch(e){
+    console.error(e);
     setDescription("An error occurred, please refresh page and retry")
   }
 
@@ -197,8 +199,14 @@ function addressUrl(address){
         <Typography variant="h6" component="h2" >{details}</Typography>
           {(step>1 && step!==5) && <ReactLoading type="spin" />}
           {step===5 && <a target="_blank" href={addressUrl(xAddress)}>Show in the blockchain explorer</a>}
+          <div class="cl"><p>Don't you have any token? Please get 10 from</p>
+          <Button variant="text" 
+          onClick={() => {claim()}}
+          disabled={step!==1}
+        >here</Button></div>
         </div>
-        <p>Don't you have any token? Please get it <a target="_blank" href="javascript:claim();">here</a></p>
+        <hr></hr>
+        <p>How to use. <a target="_blank" href="ja.pdf">Japanese</a> <a target="_blank" href="eng.pdf">English</a></p>
       </form>
     </div>
   );

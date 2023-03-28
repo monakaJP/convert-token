@@ -43,3 +43,11 @@ body{
   justify-content: space-evenly;
   
 }
+
+.MuiButton-text {
+  text-transform: lowercase !important;
+}
+
+.cl{
+  display: flex;
+}
