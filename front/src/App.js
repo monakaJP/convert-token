@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { Account, Address, NetworkType ,NamespaceHttp, Listener, TransactionHttp, PublicAccount} from 'symbol-sdk';
+import { Account, Address, NetworkType ,NamespaceHttp, Listener, TransactionHttp, PublicAccount, TransactionGroup} from 'symbol-sdk';
 import { useState, useEffect } from 'react'
 import Web3 from 'web3'
 import { Button, TextField ,Typography, Tab, Tabs, Paper} from '@mui/material';
@@ -46,15 +46,12 @@ function App() {
   }, [])
 
 
-  async function activate() {
-    if (window.ethereum) {
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        checkAccount()
-      } catch (err) {
-        console.log('user did not add account...', err)
-      }
-    }
+  const sleep = (time) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve()
+        }, time)
+    })
   }
   function isValidAddress(address){
     return Address.isValidRawAddress(address)
@@ -101,7 +98,7 @@ async function convert(){
     console.log("Token allowance:",allowance);
     if(amount>allowance){
       const h_approve = hContract.methods.approve(CONTRACT_ADDRESS, amount);
-      await h_approve.send({
+      h_approve.send({
         from: account,
         gas: 15000000
       });
@@ -112,7 +109,7 @@ async function convert(){
       TOKEN_CONTRACT,
       amount
     );
-    setDescription("Please confirm the contract")
+    setDescription("Please confirm the contracts")
     setStep(3);
     await depositTx.send({
         from: account,
@@ -123,26 +120,25 @@ async function convert(){
     setStep(4);
     listener.open().then(() => {
       listener.newBlock()
-      .subscribe( block =>{
+      .subscribe(  block =>{
           console.log("block:",block.height.compact());
-          
       },err=>{
         console.error("error");
     });
 
-    listener.confirmed(Address.createFromRawAddress(xAddress))
-    .subscribe( tx =>{
-      if(tx.signer.equals(signerPublicAccount)){
-        setStep(5);
-        setDescription("Complete! Please check your address");
-        listener.close();
-        setDetails("");
-      }else{
-        console.log("invalid signer");
-      }
-    },err=>{
-      console.error("error");
-  });
+      listener.confirmed(Address.createFromRawAddress(xAddress))
+      .subscribe( tx =>{
+        if(tx.signer.equals(signerPublicAccount)){
+          setStep(5);
+          setDescription("Complete! Please check your address");
+          listener.close();
+          setDetails("");
+        }else{
+          console.log("invalid signer");
+        }
+      },err=>{
+        console.error("error");
+      });
     });
   }catch(e){
     console.error(e);
@@ -199,7 +195,7 @@ function addressUrl(address){
         <Typography variant="h6" component="h2" >{details}</Typography>
           {(step>1 && step!==5) && <ReactLoading type="spin" />}
           {step===5 && <a target="_blank" href={addressUrl(xAddress)}>Show in the blockchain explorer</a>}
-          <div class="cl"><p>Don't you have any token? Please get 10 from</p>
+          <div className="cl"><p>Don't you have any token? Please get 10 from</p>
           <Button variant="text" 
           onClick={() => {claim()}}
           disabled={step!==1}
